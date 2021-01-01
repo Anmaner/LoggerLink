@@ -26,7 +26,7 @@ class RegisterTest extends TestCase
 
         $this->assertFalse($user->isVerified());
 
-        $this->assertNotNull($user->verify_token);
+        $this->assertEquals(40, strlen($user->verify_token));
         $this->assertNull($user->email_verified_at);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
 Auth::routes();
+Route::get('account_verify/{verify_token}', [RegisterController::class, 'verify'])->name('verify');
 
 Route::get('/', [IndexController::class, 'index']);

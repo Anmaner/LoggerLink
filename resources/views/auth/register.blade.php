@@ -7,22 +7,17 @@
             <a href="index.html"><img src="{{ asset('storage/img/logo.png') }}" alt="" width="170px"></a>
         </div>
         <div class="auth-content">
-            @if(session('success'))
-                <div class="status-bar status-success">{{ session('success') }}</div>
-            @endif
-            @if(session('error'))
-                <div class="status-bar status-error">{{ session('error') }}</div>
-            @endif
+            @include('layouts.partials.flash')
             <form action="{{ route('register') }}" method="POST">
                 <div class="auth-content__title">Sign up</div>
                 <div class="auth-content__inputs">
                     <div class="auth-content__inputs-item">
                         <div class="auth-input__title">Name</div>
-                        <input type="text" class="auth-input__input" name="name" required autocomplete="name">
+                        <input type="text" class="auth-input__input" name="name" value="{{ old('name') }}" required autocomplete="name">
                     </div>
                     <div class="auth-content__inputs-item">
                         <div class="auth-input__title">Email Adress</div>
-                        <input type="email" class="auth-input__input" name="email" required autocomplete="email">
+                        <input type="email" class="auth-input__input" name="email" value="{{ old('email') }}" required autocomplete="email">
                     </div>
                     <div class="auth-content__inputs-item">
                         <div class="auth-input__title">Password</div>

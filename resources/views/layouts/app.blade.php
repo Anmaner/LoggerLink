@@ -28,8 +28,21 @@
                 </ul>
                 <span class="divide">|</span>
                 <ul class="login_section">
-                    <li><a class="login" href="sign_in.html"><i class="fa fa-sign-in fa-less" aria-hidden="true"></i> Login</a></li>
-                    <li><a class="sign_up" href="sign_up.html"><i class="fa fa-user-plus fa-less" aria-hidden="true"></i> Sign up</a></li>
+                    @guest
+                        <li class="login_section-login">
+                            <a href="{{ route('login') }}"><i class="fa fa-sign-in fa-less" aria-hidden="true"></i> Login</a>
+                        </li>
+                        <li class="login_section-sign_up">
+                            <a href="{{ route('register') }}"><i class="fa fa-user-plus fa-less" aria-hidden="true"></i> Sign up</a>
+                        </li>
+                    @elseauth
+                        <li class="login_section-account">
+                            <a href="{{ route('register') }}"><i class="fa fa-user fa-less" aria-hidden="true"></i> Account</a>
+                        </li>
+                        <li class="login_section-logout">
+                            <a href="{{ route('login') }}"><i class="fa fa-sign-out fa-less" aria-hidden="true"></i> Logout</a>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>

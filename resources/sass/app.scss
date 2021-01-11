@@ -37,10 +37,6 @@ body {
     color: #6e767e;
 }
 
-.header-main {
-    padding-bottom: 130px;
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -500,9 +496,7 @@ body {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    padding: 0 40px;
-    padding-bottom: 63px;
-    padding-top: 25px;
+    padding: 7px 40px 63px;
 }
 
 .auth-content__title {
@@ -570,7 +564,7 @@ body {
 }
 
 .auth-signup .auth-content__title {
-    padding-top: 15px;
+    padding-top: 33px;
 }
 
 .auth-signup .auth-content {
@@ -1046,6 +1040,7 @@ body {
     justify-content: center;
     padding-right: 25px;
     padding-left: 25px;
+    margin-top: 18px;
 }
 
 .status-success {
@@ -1068,6 +1063,17 @@ input[type=submit]:focus {
     outline: none;
 }
 
+.account-section {
+    margin-top: 130px;
+}
+
+.login_section-account {
+    margin-left: 11px;
+}
+
+.login_section-logout {
+    margin-left: 18px;
+}
 
 // -------------------------------------------------------------------------------------------------------
 // MEDIA

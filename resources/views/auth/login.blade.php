@@ -12,7 +12,7 @@
                 <div class="auth-content__title">Sign in</div>
                 <div class="auth-content__inputs">
                     <div class="auth-content__inputs-item">
-                        <div class="auth-input__title">Email Adress</div>
+                        <div class="auth-input__title">Email Address</div>
                         <input type="text" class="auth-input__input" name="email" value="{{ old('email') }}" required autocomplete="email">
                     </div>
                     <div class="auth-content__inputs-item">
@@ -27,7 +27,7 @@
                 <div class="auth-content__buttons">
                     <div class="auth-content__buttons-inner">
                         <input type="submit" class="content__button auth-content__buttons-signin submit" value="Sign in">
-                        <a href="forgot_password.html" class="auth-content__buttons-forgot">Forgot password?</a>
+                        <a href="{{ route('password.request') }}" class="auth-content__buttons-forgot">Forgot password?</a>
                     </div>
                 </div>
                 @csrf()

@@ -39,15 +39,15 @@ class RegisterController extends Controller
         }
 
         return redirect()->route('login')
-            ->with('success', 'Registration completed successfully. Check your registered email for email verification.');
+            ->with('success', 'Registration completed successfully. Check your email for verification.');
     }
 
     public function verify($verifyToken)
     {
         try {
             $this->service->verify($verifyToken);
-        } catch(\DomainException $e) {
-            return redirect()->route('login')->with('error', $e->getMessage());
+        } catch(ModelNotFoundException $e) {
+            return redirect()->route('login')->with('error', "Given verify token is unidentified.");
         }
 
         return redirect()->route('login')

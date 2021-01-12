@@ -39,9 +39,11 @@
                         <li class="login_section-account">
                             <a href="{{ route('register') }}"><i class="fa fa-user fa-less" aria-hidden="true"></i> Account</a>
                         </li>
-                        <li class="login_section-logout">
-                            <a href="{{ route('login') }}"><i class="fa fa-sign-out fa-less" aria-hidden="true"></i> Logout</a>
-                        </li>
+                        <form action="{{ route('logout') }}" class="form-logout" method="POST">
+                            <i class="fa fa-sign-out fa-less" aria-hidden="true"></i>
+                            <input type="submit" value=" Logout" class="login_section-logout">
+                            @csrf()
+                        </form>
                     @endguest
                 </ul>
             </div>

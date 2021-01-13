@@ -13,5 +13,5 @@
 @endif
 
 @if(session('status'))
-    <div class="status-bar status-success">{{ session('error') }}</div>
+    <div class="status-bar status-success">{{ session('status') }}</div>
 @endif

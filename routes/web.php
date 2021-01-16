@@ -16,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Account\EmailChangeController;
 
 
 Auth::routes();
 Route::get('account_verify/{verify_token}', [RegisterController::class, 'verify'])->name('verify');
 
 Route::get('/', [IndexController::class, 'index']);
+
+Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Account', 'as' => 'account.'], function (){
+    Route::get('/', [AccountController::class, 'index'])->name('index');
+});

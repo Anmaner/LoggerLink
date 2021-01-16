@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\User\EmailChange;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,7 +60,7 @@ class User extends Authenticatable
 
         $this->email_verified_at = $time;
         $this->verify_token = null;
-        $this->save();
+        $this->saveOrFail();
 
         return $this;
     }
@@ -68,5 +68,13 @@ class User extends Authenticatable
     public function isVerified(): bool
     {
         return (bool) $this->email_verified_at;
+    }
+
+    public function changePassword($newPassword): self
+    {
+        $this->password = Hash::make($newPassword);
+        $this->saveOrFail();
+
+        return $this;
     }
 }

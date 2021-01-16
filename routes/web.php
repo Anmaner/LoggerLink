@@ -27,4 +27,7 @@ Route::get('/', [IndexController::class, 'index']);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Account', 'as' => 'account.'], function (){
     Route::get('/', [AccountController::class, 'index'])->name('index');
+
+    Route::get('password/change', [AccountController::class, 'changePassword'])->name('password.change');
+    Route::post('password/change', [AccountController::class, 'changePasswordStore']);
 });

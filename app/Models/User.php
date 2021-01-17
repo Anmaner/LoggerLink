@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
  * @property string $password
  * @property string $verify_token
  * @property Carbon $email_verified_at
+ * @property EmailChange $emailChange
  */
 
 class User extends Authenticatable
@@ -40,6 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function emailChange()
+    {
+        return $this->hasOne('App\Models\User\EmailChange');
+    }
+
     public static function register($name, $email, $password): self
     {
         return self::create([
@@ -49,6 +55,14 @@ class User extends Authenticatable
             'email_verified_at' => null,
             'verify_token' => Str::random(40),
         ]);
+    }
+
+    public function changeEmail($email): self
+    {
+        $this->email = $email;
+        $this->saveOrFail();
+
+        return $this;
     }
 
     public function verify(Carbon $time): self

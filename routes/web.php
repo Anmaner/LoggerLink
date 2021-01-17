@@ -30,4 +30,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
 
     Route::get('password/change', [AccountController::class, 'changePassword'])->name('password.change');
     Route::post('password/change', [AccountController::class, 'changePasswordStore']);
+
+    Route::group(['prefix' => 'mail/change', 'as' => 'mail.'], function() {
+        Route::get('/', [EmailChangeController::class, 'form'])->name('change');
+
+        Route::post('request-old', [EmailChangeController::class, 'requestOldMail'])->name('request.old');
+        Route::post('request-new', [EmailChangeController::class, 'requestNewMail'])->name('request.new');
+
+        Route::get('confirm-old/{old_token}', [EmailChangeController::class, 'confirmOldMail'])->name('confirm.old');
+        Route::get('confirm-new/{new_token}', [EmailChangeController::class, 'confirmNewMail'])->name('confirm.new');
+    });
 });

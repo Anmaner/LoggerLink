@@ -1,3 +1,8 @@
+@if(session('errors') || session('success') || session('error') || session('status'))
+    <div class="status">
+@endif
+
+
 @if(session('errors'))
     @foreach(session('errors')->all() as $error)
         <div class="status-bar status-error">{{ $error }}</div>
@@ -14,4 +19,9 @@
 
 @if(session('status'))
     <div class="status-bar status-success">{{ session('status') }}</div>
+@endif
+
+
+@if(session('errors') || session('success') || session('error') || session('status'))
+    </div>
 @endif

@@ -37,7 +37,7 @@
                         </li>
                     @elseauth
                         <li class="login_section-account">
-                            <a href="{{ route('register') }}"><i class="fa fa-user fa-less" aria-hidden="true"></i> Account</a>
+                            <a href="{{ route('account.index') }}"><i class="fa fa-user fa-less" aria-hidden="true"></i> Account</a>
                         </li>
                         <form action="{{ route('logout') }}" class="form-logout" method="POST">
                             <i class="fa fa-sign-out fa-less" aria-hidden="true"></i>

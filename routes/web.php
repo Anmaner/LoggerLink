@@ -18,6 +18,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Account\EmailChangeController;
+use App\Http\Controllers\Account\MailingController;
 
 
 Auth::routes();
@@ -40,4 +41,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
         Route::get('confirm-old/{old_token}', [EmailChangeController::class, 'confirmOldMail'])->name('confirm.old');
         Route::get('confirm-new/{new_token}', [EmailChangeController::class, 'confirmNewMail'])->name('confirm.new');
     });
+
+    Route::get('mailing', [MailingController::class, 'index'])->name('mailing');
+    Route::post('mailing', [MailingController::class, 'indexStore']);
 });

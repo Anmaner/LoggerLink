@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User\EmailChange;
+use App\Models\User\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,6 +19,7 @@ use Illuminate\Support\Str;
  * @property string $verify_token
  * @property Carbon $email_verified_at
  * @property EmailChange $emailChange
+ * @property Notification $notification
  */
 
 class User extends Authenticatable
@@ -44,6 +46,11 @@ class User extends Authenticatable
     public function emailChange()
     {
         return $this->hasOne('App\Models\User\EmailChange');
+    }
+
+    public function notification()
+    {
+        return $this->hasOne('App\Models\User\Notification');
     }
 
     public static function register($name, $email, $password): self

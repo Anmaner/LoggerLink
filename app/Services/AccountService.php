@@ -21,6 +21,10 @@ class AccountService
 
     public function requestOldMail(string $newEmail): void
     {
+        if(Auth::user()->emailChange()->first()) {
+            throw new \DomainException('Email change is already in process.');
+        }
+
         $emailChange = EmailChange::create(Auth::user(), $newEmail);
 
         $this->mailer->to(Auth::user()->email)->send(new OldMail($emailChange->old_token));
@@ -59,5 +63,10 @@ class AccountService
         });
 
         $this->mailer->to($newEmail)->send(new EmailChanged());
+    }
+
+    public function resetEmailChange(): void
+    {
+        Auth::user()->emailChange->delete();
     }
 }

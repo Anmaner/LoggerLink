@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Models\User\EmailChange;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,8 +42,20 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
 
         Route::get('confirm-old/{old_token}', [EmailChangeController::class, 'confirmOldMail'])->name('confirm.old');
         Route::get('confirm-new/{new_token}', [EmailChangeController::class, 'confirmNewMail'])->name('confirm.new');
+
+        Route::get('reset', [EmailChangeController::class, 'reset'])->name('reset');
     });
 
     Route::get('mailing', [MailingController::class, 'index'])->name('mailing');
     Route::post('mailing', [MailingController::class, 'indexStore']);
 });
+
+
+
+//$sss = EmailChange::factory()->state([
+//    ''
+//])->for(User::factory()->create())->make();
+//
+//dump($sss);
+//echo 'ssss------------------------';
+//die();

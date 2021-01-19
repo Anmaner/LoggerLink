@@ -50,7 +50,7 @@ class EmailChange extends Model
     {
         $new = new self();
 
-        $new->status = EmailChange::OLD_REQUESTED;
+        $new->status = self::OLD_REQUESTED;
         $new->email = $newEmail;
         $new->old_token = Str::random(40);
         $new->user()->associate($user);
@@ -62,7 +62,9 @@ class EmailChange extends Model
 
     public function requestNew(): self
     {
-        $this->status = EmailChange::NEW_REQUESTED;
+        $this->guardStatusEquals(self::OLD_CONFIRMED);
+
+        $this->status = self::NEW_REQUESTED;
         $this->new_token = Str::random(40);
         $this->saveOrFail();
 
@@ -74,6 +76,8 @@ class EmailChange extends Model
         if($this->old_token !== $token) {
             throw new \DomainException('Invalid email token given.');
         }
+
+        $this->guardStatusEquals(self::OLD_REQUESTED);
 
         $this->status = self::OLD_CONFIRMED;
         $this->old_token = null;
@@ -88,6 +92,15 @@ class EmailChange extends Model
             throw new \DomainException('Invalid email token given.');
         }
 
+        $this->guardStatusEquals(self::NEW_REQUESTED);
+
         $this->delete();
+    }
+
+    protected function guardStatusEquals($status)
+    {
+        if($this->status !== $status) {
+            throw new \DomainException('Email change could not be completed.');
+        }
     }
 }

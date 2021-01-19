@@ -7,15 +7,24 @@
             @include('layouts.partials.flash')
         @elseif($emailChange && $emailChange->isOldRequested())
             <div class="status">
-                <div class="status-bar status-success">Verification token is sent. Please check your current email-address.</div>
+                <div class="status-bar status-success">
+                    <span>Verification token is sent. Please check your current email-address.</span>
+                    <a class="email-change_cancel" href="{{ route('account.mail.reset') }}">Cancel email change.</a>
+                </div>
             </div>
         @elseif($emailChange && $emailChange->isOldConfirmed())
             <div class="status">
-                <div class="status-bar status-success">Old email-address is confirmed. Now you can request email to new email-address.</div>
+                <div class="status-bar status-success">
+                    <span>Old email-address is confirmed. Now you can request email to new email-address.</span>
+                    <a class="email-change_cancel" href="{{ route('account.mail.reset') }}">Cancel email change.</a>
+                </div>
             </div>
         @elseif($emailChange && $emailChange->isNewRequested())
             <div class="status">
-                <div class="status-bar status-success">Verification token is sent to your new email-address.</div>
+                <div class="status-bar status-success">
+                    <span>Verification token is sent to your new email-address.</span>
+                    <a class="email-change_cancel" href="{{ route('account.mail.reset') }}">Cancel email change.</a>
+                </div>
             </div>
         @endif
             <div class="account account-mail">
@@ -27,7 +36,7 @@
                             <div class="auth-content__inputs">
                                 <div class="auth-content__inputs-item">
                                     <div class="auth-input__title">New email Address</div>
-                                    <input type="text" class="auth-input__input" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                    <input type="text" class="auth-input__input" name="email" required autocomplete="email">
                                 </div>
                             </div>
                             @if(!$emailChange)

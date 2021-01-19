@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Account\EmailChangeRequest;
+use App\Models\User\EmailChange;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,16 +25,24 @@ class EmailChangeController extends Controller
         return view('account.change_email', compact('emailChange'));
     }
 
-    public function requestOldMail(Request $request)
+    public function requestOldMail(EmailChangeRequest $request)
     {
-        $this->service->requestOldMail($request->get('email'));
+        try {
+            $this->service->requestOldMail($request->get('email'));
+        } catch (\DomainException $e) {
+            return redirect()->route('account.mail.change')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('account.mail.change');
     }
 
     public function requestNewMail(Request $request)
     {
-        $this->service->requestNewMail();
+        try {
+            $this->service->requestNewMail();
+        } catch (\DomainException $e) {
+            return redirect()->route('account.mail.change')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('account.mail.change');
     }
@@ -57,5 +67,12 @@ class EmailChangeController extends Controller
         }
 
         return redirect()->route('account.mail.change')->with('success', 'Your email address has been successfully changed.');
+    }
+
+    public function reset()
+    {
+        $this->service->resetEmailChange();
+
+        return redirect()->route('account.mail.change')->with('success', 'Email change is successfully canceled.');
     }
 }

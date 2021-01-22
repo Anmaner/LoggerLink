@@ -30,7 +30,10 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        $user = User::where('email', $request->get('email'))->firstOrFail();
+        if(!$user = User::where('email', $request->get('email'))->first()) {
+            return redirect()->route('login')->with('error', 'These credentials do not match our records.');
+        }
+
         if(!$user->isVerified()) {
             return redirect()->route('login')
                 ->withInput()->with('error', 'Your account is not verified. Please check your email account.');

@@ -32,7 +32,7 @@
         </a>
     </div>
    <div class="link-button">
-        <a href="about.html" class="link__beside">
+        <a href="{{ route('about') }}" class="link__beside">
             Read more about
         </a>
    </div>

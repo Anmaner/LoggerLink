@@ -26,7 +26,8 @@ use App\Http\Controllers\Account\MailingController;
 Auth::routes();
 Route::get('account_verify/{verify_token}', [RegisterController::class, 'verify'])->name('verify');
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->name('main');
+Route::get('about', [IndexController::class, 'about'])->name('about');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Account', 'as' => 'account.'], function (){
     Route::get('/', [AccountController::class, 'index'])->name('index');
@@ -47,15 +48,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
     });
 
     Route::get('mailing', [MailingController::class, 'index'])->name('mailing');
-    Route::post('mailing', [MailingController::class, 'indexStore']);
+    Route::post('mailing', [MailingController::class, 'indexStore'])->name('mailing');
 });
-
-
-
-//$sss = EmailChange::factory()->state([
-//    ''
-//])->for(User::factory()->create())->make();
-//
-//dump($sss);
-//echo 'ssss------------------------';
-//die();

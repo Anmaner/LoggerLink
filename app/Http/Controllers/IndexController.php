@@ -14,4 +14,9 @@ class IndexController extends Controller
     {
         return view('about');
     }
+
+    public function rules()
+    {
+        return view('rules');
+    }
 }

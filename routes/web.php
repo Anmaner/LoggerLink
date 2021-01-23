@@ -28,6 +28,7 @@ Route::get('account_verify/{verify_token}', [RegisterController::class, 'verify'
 
 Route::get('/', [IndexController::class, 'index'])->name('main');
 Route::get('about', [IndexController::class, 'about'])->name('about');
+Route::get('rules', [IndexController::class, 'rules'])->name('rules');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Account', 'as' => 'account.'], function (){
     Route::get('/', [AccountController::class, 'index'])->name('index');

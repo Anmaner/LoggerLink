@@ -21,6 +21,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Account\EmailChangeController;
 use App\Http\Controllers\Account\MailingController;
+use App\Http\Controllers\Logger\LoggerController;
+use App\Http\Controllers\Logger\ShortenerController;
 
 
 Auth::routes();
@@ -50,4 +52,31 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
 
     Route::get('mailing', [MailingController::class, 'index'])->name('mailing');
     Route::post('mailing', [MailingController::class, 'indexStore'])->name('mailing');
+});
+
+Route::group(['prefix' => 'logger', 'as' => 'logger.', 'namespace' => 'Logger'], function() {
+    Route::get('/', [LoggerController::class, 'generate'])->name('generate');
+
+    Route::get('{token}/information', [LoggerController::class, 'information'])->name('information');
+    Route::post('{token}/information', [LoggerController::class, 'informationStore']);
+
+    Route::get('{token}/statistics', [LoggerController::class, 'statistics'])->name('statistics');
+
+    Route::get('{token}/export', [LoggerController::class, 'export'])->name('export');
+    Route::post('{token}/export', [LoggerController::class, 'exportDownload']);
+});
+
+Route::group(['prefix' => 'shortener', 'as' => 'shortener.', 'namespace' => 'Logger'], function() {
+    Route::get('/', [ShortenerController::class, 'generate'])->name('generate');
+
+    Route::get('{token}/information', [ShortenerController::class, 'information'])->name('information');
+    Route::post('{token}/information', [ShortenerController::class, 'informationStore']);
+
+    Route::get('{token}/statistics', [ShortenerController::class, 'statistics'])->name('statistics');
+
+    Route::get('{token}/redirect', [ShortenerController::class, 'redirect'])->name('redirect');
+    Route::post('{token}/redirect', [ShortenerController::class, 'redirectStore']);
+
+    Route::get('{token}/export', [ShortenerController::class, 'export'])->name('export');;
+    Route::post('{token}/export', [LoggerController::class, 'exportDownload']);
 });

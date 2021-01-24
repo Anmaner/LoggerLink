@@ -20,7 +20,7 @@ function addInfoItem() {
     let info__value = document.createElement('input');
     info__value.type = 'text';
     info__value.className = 'info__item-value info__item-input';
-    country.name = 'value[]';
+    info__value.name = 'value[]';
 
     let info__remove = document.createElement('span');
     info__remove.className = 'info__item-remove';

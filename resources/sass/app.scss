@@ -37,6 +37,11 @@ body {
     color: #6e767e;
 }
 
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

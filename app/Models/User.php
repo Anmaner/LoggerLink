@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\User\Notification');
     }
 
+    public function loggers()
+    {
+        return $this->hasMany('App\Models\Logger\Logger');
+    }
+
     public static function register($name, $email, $password): self
     {
         return self::create([

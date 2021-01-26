@@ -57,13 +57,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
 Route::group(['prefix' => 'logger', 'as' => 'logger.', 'namespace' => 'Logger'], function() {
     Route::get('/', [LoggerController::class, 'generate'])->name('generate');
 
-    Route::get('{token}/information', [LoggerController::class, 'information'])->name('information');
-    Route::post('{token}/information', [LoggerController::class, 'informationStore']);
+    Route::get('{logger}/information', [LoggerController::class, 'information'])->name('information');
+    Route::post('{logger}/information', [LoggerController::class, 'informationStore']);
 
-    Route::get('{token}/statistics', [LoggerController::class, 'statistics'])->name('statistics');
+    Route::get('{logger}/statistics', [LoggerController::class, 'statistics'])->name('statistics');
 
-    Route::get('{token}/export', [LoggerController::class, 'export'])->name('export');
-    Route::post('{token}/export', [LoggerController::class, 'exportDownload']);
+    Route::get('{logger}/export', [LoggerController::class, 'export'])->name('export');
+    Route::post('{logger}/export', [LoggerController::class, 'exportDownload']);
 });
 
 Route::group(['prefix' => 'shortener', 'as' => 'shortener.', 'namespace' => 'Logger'], function() {
@@ -80,3 +80,6 @@ Route::group(['prefix' => 'shortener', 'as' => 'shortener.', 'namespace' => 'Log
     Route::get('{token}/export', [ShortenerController::class, 'export'])->name('export');;
     Route::post('{token}/export', [LoggerController::class, 'exportDownload']);
 });
+
+Route::get('l-{logger}', [LoggerController::class, 'follow'])->name('logger.follow');
+Route::get('s-{logger}', [ShortenerController::class, 'follow'])->name('shortener.follow');

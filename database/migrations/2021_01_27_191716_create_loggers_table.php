@@ -16,10 +16,11 @@ class CreateLoggersTable extends Migration
         Schema::create('loggers', function (Blueprint $table) {
             $table->id();
             $table->string('token')->unique();
-            $table->string('redirect')->nullable();
             $table->string('code')->nullable();
+            $table->string('redirect')->nullable();
+            $table->string('type');
             $table->integer('status');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

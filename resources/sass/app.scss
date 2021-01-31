@@ -352,11 +352,11 @@ input:focus {
     padding-bottom: 10px;
     border-bottom: rgb(173, 173, 173) 1px solid;
     background-color: #f1f1f1;;
-    padding-left: 25px;
+    padding-left: 55px;
 }
 
 .content-data__title-item {
-    width: 120px;
+    width: 150px;
 }
 
 .content-data__value {
@@ -365,7 +365,7 @@ input:focus {
 
     padding-top: 18px;
     padding-bottom: 18px;
-    padding-left: 25px;
+    padding-left: 55px;
 
     border-bottom: rgb(173, 173, 173) 1px dashed;
 }
@@ -375,8 +375,9 @@ input:focus {
 }
 
 .content-data__value-item {
-    width: 120px;
+    width: 150px;
     cursor: pointer;
+    word-wrap: break-word;
 }
 
 .value-item {

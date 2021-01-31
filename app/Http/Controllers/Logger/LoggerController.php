@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Logger;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Logger\LoggerRequest;
+use App\Models\Logger\Follow;
 use App\Services\LoggerService;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Logger\Logger;
@@ -12,10 +14,12 @@ use App\Models\Logger\Logger;
 class LoggerController extends Controller
 {
     protected $service;
+    protected $carbon;
 
-    public function __construct(LoggerService $service)
+    public function __construct(LoggerService $service, Carbon $carbon)
     {
         $this->service = $service;
+        $this->carbon = $carbon;
     }
 
     public function generate()
@@ -41,14 +45,25 @@ class LoggerController extends Controller
         return back()->with('success', 'Information is successfully updated.');
     }
 
-    public function statistics(Request $request, $id)
+    public function statistics(Logger $logger, Request $request, Follow $follow)
     {
-        return view('logger.statistics', compact('id'));
+        try {
+            $follows = $this->service->selectStatistics(
+                $logger,
+                $request->get('first_date'),
+                $request->get('second_date'),
+                $request->get('unique')
+            );
+        } catch (InvalidFormatException $e) {
+            return back()->with('error', 'Invalid date format given.');
+        }
+
+        return view('logger.statistics', compact('logger', 'follows'));
     }
 
-    public function export($id)
+    public function export(Logger $logger)
     {
-        return view('logger.export', compact('id'));
+        return view('logger.export', compact('logger'));
     }
 
     public function exportDownload()

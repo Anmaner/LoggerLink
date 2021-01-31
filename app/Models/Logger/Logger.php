@@ -20,11 +20,15 @@ class Logger extends Model
     public const STATUS_ENABLE = 1;
     public const STATUS_DISABLE = 0;
 
+    public const TYPE_LOGGER = 'logger';
+    public const TYPE_SHORTENER = 'shortener';
+
     protected $fillable = [
         'token',
         'redirect',
         'code',
-        'status'
+        'status',
+        'type'
     ];
 
     public function getRouteKeyName()
@@ -32,11 +36,26 @@ class Logger extends Model
         return 'token';
     }
 
-    public static function generate(User $user, $token): self
+    public static function generateLogger(User $user, $token): self
     {
         $logger = self::make([
             'token' => $token,
-            'status' => self::STATUS_ENABLE
+            'status' => self::STATUS_ENABLE,
+            'type' => self::TYPE_LOGGER
+        ]);
+
+        $logger->user()->associate($user);
+        $logger->saveOrFail();
+
+        return $logger;
+    }
+
+    public static function generateShortener(User $user, $token): self
+    {
+        $logger = self::make([
+            'token' => $token,
+            'status' => self::STATUS_ENABLE,
+            'type' => self::TYPE_LOGGER
         ]);
 
         $logger->user()->associate($user);
@@ -58,8 +77,21 @@ class Logger extends Model
         ];
     }
 
+    public static function getTypeList(): array
+    {
+        return [
+            self::TYPE_LOGGER,
+            self::TYPE_SHORTENER
+        ];
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function follows()
+    {
+        return $this->hasMany('App\Models\Logger\Follow');
     }
 }

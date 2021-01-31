@@ -39,24 +39,11 @@ class Follow extends Model
 
     public function scopeDateFrom($query, $date)
     {
-        if($date) {
-            return $query->whereDate('created_at', '>=', $date->toDateString());
-        }
-
-        return $query;
+        return $query->whereDate('created_at', '>=', $date->toDateString());
     }
 
     public function scopeDateTo($query, $date)
     {
-        if($date) {
-            return $query->whereDate('created_at', '<=', $date->toDateString());
-        }
-
-        return $query;
-    }
-
-    public function scopeUnique($query, $unique)
-    {
-        return $query;
+        return $query->whereDate('created_at', '<=', $date->toDateString());
     }
 }

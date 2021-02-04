@@ -374,6 +374,10 @@ input:focus {
     background-color: #f5f5f5;
 }
 
+.content-data__value:last-child {
+    border-bottom: none;
+}
+
 .content-data__value-item {
     width: 150px;
     cursor: pointer;

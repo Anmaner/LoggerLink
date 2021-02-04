@@ -56,7 +56,7 @@
                             <span class="value-item">{{ $follow->os }}</span>
                             <span class="value-item">{{ $follow->browser }}</span>
                         </div>
-                        <div class="content-data__value-item">{{ $follow->from }}</div>
+                        <div class="content-data__value-item">{{ $follow->from ?: 'Unknown' }}</div>
                     </div>
                     @endforeach
                 </div>

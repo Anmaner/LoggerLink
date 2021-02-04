@@ -26,8 +26,8 @@ class LoggerRequest extends FormRequest
     public function rules()
     {
         return [
-            'redirect' => 'required|string|url|max:255',
-            'code' => 'required|string|max:255',
+            'redirect' => 'url|nullable|max:255',
+            'code' => 'max:255',
             'status' => Rule::in( Logger::getStatusList() )
         ];
     }

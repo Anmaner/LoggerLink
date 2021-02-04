@@ -5,20 +5,26 @@ namespace App\Http\Controllers\Logger;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Logger\LoggerRequest;
 use App\Models\Logger\Follow;
+use App\Services\FollowService;
 use App\Services\LoggerService;
+use App\UseCases\GuestResolver\GuestResolverInterface;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Logger\Logger;
+use Sinergi\BrowserDetector\Browser;
+use Sinergi\BrowserDetector\Os;
 
 class LoggerController extends Controller
 {
     protected $service;
+    protected $followService;
     protected $carbon;
 
-    public function __construct(LoggerService $service, Carbon $carbon)
+    public function __construct(LoggerService $service, FollowService $followService, Carbon $carbon)
     {
         $this->service = $service;
+        $this->followService = $followService;
         $this->carbon = $carbon;
     }
 
@@ -69,5 +75,25 @@ class LoggerController extends Controller
     public function exportDownload()
     {
         //
+    }
+
+    public function follow(Logger $logger, Request $request, GuestResolverInterface $resolver, Browser $browser, Os $os)
+    {
+        try {
+            $this->followService->follow(
+                $resolver,
+                $request->ip(),
+                $logger->id,
+                $request->server('HTTP_REFERER') ?? '',
+            );
+        } catch (\DomainException $e) {
+            abort(404);
+        }
+
+        if($logger->redirect) {
+            return redirect($logger->redirect);
+        } else {
+            abort(404);
+        }
     }
 }

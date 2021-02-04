@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
  * @property string $token
  * @property string $redirect
  * @property string $code
@@ -34,6 +35,15 @@ class Logger extends Model
     public function getRouteKeyName()
     {
         return 'token';
+    }
+
+    public function isEnable(): bool
+    {
+        if($this->status === self::STATUS_ENABLE) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function generateLogger(User $user, $token): self

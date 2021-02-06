@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Logger;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefaultRender;
 use App\Http\Requests\Logger\LoggerRequest;
 use App\Models\Logger\Follow;
 use App\Services\FollowService;
@@ -18,12 +19,16 @@ use Sinergi\BrowserDetector\Os;
 
 class LoggerController extends Controller
 {
+    use DefaultRender;
+
+    protected $request;
     protected $service;
     protected $followService;
     protected $carbon;
 
-    public function __construct(LoggerService $service, FollowService $followService, Carbon $carbon)
+    public function __construct(Request $request, LoggerService $service, FollowService $followService, Carbon $carbon)
     {
+        $this->request = $request;
         $this->service = $service;
         $this->followService = $followService;
         $this->carbon = $carbon;
@@ -38,7 +43,9 @@ class LoggerController extends Controller
 
     public function information(Logger $logger)
     {
-        return view('logger.information', compact('logger'));
+        $loggers = $this->renderLoggers($this->request);
+
+        return view('logger.information', compact('loggers', 'logger'));
     }
 
     public function informationStore(Logger $logger, LoggerRequest $request)
@@ -65,12 +72,16 @@ class LoggerController extends Controller
             return back()->with('error', 'Invalid date format given.');
         }
 
-        return view('logger.statistics', compact('logger', 'follows'));
+        $loggers = $this->renderLoggers($request);
+
+        return view('logger.statistics', compact('logger', 'follows', 'loggers'));
     }
 
     public function export(Logger $logger)
     {
-        return view('logger.export', compact('logger'));
+        $loggers = $this->renderLoggers($this->request);
+
+        return view('logger.export', compact('loggers', 'logger'));
     }
 
     public function exportDownload(Logger $logger, Request $request)
@@ -101,7 +112,7 @@ class LoggerController extends Controller
         return Storage::download($fileDir);
     }
 
-    public function follow(Logger $logger, Request $request, GuestResolverInterface $resolver, Browser $browser, Os $os)
+    public function follow(Logger $logger, GuestResolverInterface $resolver, Browser $browser, Os $os, Request $request)
     {
         try {
             $this->followService->follow(

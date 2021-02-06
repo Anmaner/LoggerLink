@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefaultRender;
 use App\Http\Requests\Account\EmailChangeRequest;
 use App\Models\User\EmailChange;
 use App\Services\AccountService;
@@ -11,18 +12,23 @@ use Illuminate\Support\Facades\Auth;
 
 class EmailChangeController extends Controller
 {
-    private $service;
+    use DefaultRender;
 
-    public function __construct(AccountService $service)
+    protected $request;
+    protected $service;
+
+    public function __construct(Request $request, AccountService $service)
     {
+        $this->request = $request;
         $this->service = $service;
     }
 
     public function form()
     {
-        $emailChange = Auth::user()->emailChange;
-
-        return view('account.change_email', compact('emailChange'));
+        return view('account.change_email', [
+            'loggers' => $this->renderLoggers($this->request),
+            'emailChange' => $this->request->user()->emailChange
+        ]);
     }
 
     public function requestOldMail(EmailChangeRequest $request)

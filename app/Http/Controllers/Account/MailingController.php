@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefaultRender;
 use App\Models\User\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MailingController extends Controller
 {
-    public function index()
+    use DefaultRender;
+
+    public function index(Request $request)
     {
+        $loggers = $this->renderLoggers($request);
+
         $notification = Auth::user()->notification
             ?? Notification::createDefault(Auth::user());
 
-        return view('account.mailing', compact('notification'));
+        return view('account.mailing', compact('loggers', 'notification'));
     }
 
     public function indexStore(Request $request)

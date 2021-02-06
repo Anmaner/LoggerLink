@@ -12,17 +12,27 @@
                     <li class="sections-first">
                         <a class="login" href="#"><i class="fa fa-caret-square-o-down fa-less" aria-hidden="true"></i> Logger</a>
                         <ul class="dropdown">
-                            <li class="dropdown-item"><a href="create_page.html">Logger create</a></li>
-                            <li class="dropdown-item"><a href="create_page.html">#ye24f91Sjby7</a></li>
-                            <li class="dropdown-item"><a href="create_page.html">#ye24f91Sjby7</a></li>
+                            <li class="dropdown-item"><a href="{{ route('logger.generate') }}">Logger create</a></li>
+                            @foreach($loggers as $logger)
+                                @if($logger->type === $logger::TYPE_LOGGER)
+                                    <li class="dropdown-item">
+                                        <a href="{{ route('logger.information', $logger->token) }}">#{{ $logger->token }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </li>
                     <li class="sections-second">
                         <a class="sign_up" href="#"><i class="fa fa-caret-square-o-down fa-less" aria-hidden="true"></i> Shortener</a>
                         <ul class="dropdown">
-                            <li class="dropdown-item"><a href="create_page_shortener.html">Shortener create</a></li>
-                            <li class="dropdown-item"><a href="create_page_shortener.html">#ye24f91Sjby7</a></li>
-                            <li class="dropdown-item"><a href="create_page_shortener.html">#ye24f91Sjby7</a></li>
+                            <li class="dropdown-item"><a href="{{ route('shortener.generate') }}">Shortener create</a></li>
+                            @foreach($loggers as $logger)
+                                @if($logger->type === $logger::TYPE_SHORTENER)
+                                    <li class="dropdown-item">
+                                        <a href="{{ route('logger.information', $logger->token) }}">#{{ $logger->token }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </li>
                 </ul>

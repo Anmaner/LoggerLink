@@ -54,8 +54,8 @@ class LoggerController extends Controller
     public function statistics(Logger $logger, Request $request, Follow $follow)
     {
         try {
-            $follows = $this->service->selectStatistics(
-                $logger,
+            $follows = $this->service->selectFollowStatistics(
+                $logger->id,
                 $request->get('first_date'),
                 $request->get('second_date'),
                 $request->get('unique')

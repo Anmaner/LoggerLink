@@ -3,14 +3,16 @@
 namespace App\Services;
 
 use App\Models\Logger\Logger;
-use Illuminate\Http\Request;
+use App\UseCases\FileGenerator\FileGeneratorFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class LoggerService
 {
-    public function generateLogger(): string
+    public function generate(): string
     {
         Logger::generateLogger(
             $user = Auth::user(),
@@ -30,6 +32,28 @@ class LoggerService
         return $this->followUniqueQueryFilter($query, $unique);
     }
 
+    public function generateExportStatistics(Collection $follows, String $fileType, array $fields)
+    {
+        if($follows->isEmpty()) {
+            throw new \DomainException('There are no records for the specified filters.');
+        }
+
+        $followsStatistics = $this->addDateTimeFieldsToFollows($follows);
+
+        $fileGenerator = FileGeneratorFactory::create($fileType);
+
+        return $fileGenerator->generate($followsStatistics, $fields);
+    }
+
+    public function loadStatisticsToFile(String $loggerId, String $type, $statistics): string
+    {
+        $fileDir = "public/files/logger-export-{$loggerId}.{$type}";
+
+        Storage::put($fileDir, $statistics);
+
+        return $fileDir;
+    }
+
     protected function getUniqueToken(): string
     {
         while(true) {
@@ -39,6 +63,18 @@ class LoggerService
                 return $token;
             }
         }
+    }
+
+    protected function addDateTimeFieldsToFollows($follows)
+    {
+        $arrayFollows = $follows->toArray();
+
+        foreach ($arrayFollows as $key=>$follow) {
+            $arrayFollows[$key]['date'] = $follows->offsetGet($key)->created_at->format('Y-m-d');
+            $arrayFollows[$key]['time'] = $follows->offsetGet($key)->created_at->format('H:i:s');
+        }
+
+        return $arrayFollows;
     }
 
     protected function followDateQueryFilter($query, $first_date, $second_date)

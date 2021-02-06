@@ -12,6 +12,7 @@ use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Logger\Logger;
+use Illuminate\Support\Facades\Storage;
 use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Os;
 
@@ -72,9 +73,32 @@ class LoggerController extends Controller
         return view('logger.export', compact('logger'));
     }
 
-    public function exportDownload()
+    public function exportDownload(Logger $logger, Request $request)
     {
-        //
+        try {
+            $follows = $this->service->selectFollowStatistics(
+                $logger->id,
+                $request->get('first_date'),
+                $request->get('second_date'),
+                $request->get('unique')
+            );
+
+            $statistics = $this->service->generateExportStatistics(
+                $follows,
+                $request->get('type'),
+                array_keys ($request->all())
+            );
+
+            $fileDir = $this->service->loadStatisticsToFile(
+                $logger->id,
+                $request->get('type'),
+                $statistics
+            );
+        } catch (\DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return Storage::download($fileDir);
     }
 
     public function follow(Logger $logger, Request $request, GuestResolverInterface $resolver, Browser $browser, Os $os)

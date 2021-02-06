@@ -21,40 +21,40 @@ class AccountService
 
     public function requestOldMail(string $newEmail): void
     {
-        if(Auth::user()->emailChange()->first()) {
+        if($this->getUser()->emailChange()->first()) {
             throw new \DomainException('Email change is already in process.');
         }
 
-        $emailChange = EmailChange::create(Auth::user(), $newEmail);
+        $emailChange = EmailChange::create($this->getUser(), $newEmail);
 
-        $this->mailer->to(Auth::user()->email)->send(new OldMail($emailChange->old_token));
+        $this->mailer->to($this->getUser()->email)->send(new OldMail($emailChange->old_token));
     }
 
     public function requestNewMail(): void
     {
-        $emailChange = Auth::user()->emailChange->requestNew();
+        $emailChange = $this->getUser()->emailChange->requestNew();
 
         $this->mailer->to($emailChange->email)->send(new NewMail($emailChange->new_token));
     }
 
     public function confirmOldMail(string $token): void
     {
-        if(!$emailChange = Auth::user()->emailChange) {
+        if(!$emailChange = $this->getUser()->emailChange) {
             throw new \DomainException('Invalid email token given.');
         }
 
         $emailChange->confirmOld($token);
 
-        $this->mailer->to(Auth::user()->email)->send(new EmailChanged());
+        $this->mailer->to($this->getUser()->email)->send(new EmailChanged());
     }
 
     public function confirmNewMail(string $token): void
     {
-        if(!$emailChange = Auth::user()->emailChange) {
+        if(!$emailChange = $this->getUser()->emailChange) {
             throw new \DomainException('Invalid email token given.');
         }
 
-        $user = Auth::user();
+        $user = $this->getUser();
         $newEmail = $emailChange->email;
 
         DB::transaction(function () use ($token, $user, $newEmail) {
@@ -67,6 +67,11 @@ class AccountService
 
     public function resetEmailChange(): void
     {
-        Auth::user()->emailChange->delete();
+        $this->getUser()->emailChange->delete();
+    }
+
+    protected function getUser()
+    {
+        return Auth::user();
     }
 }

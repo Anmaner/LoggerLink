@@ -24,10 +24,10 @@
         </div>
     </div>
     <div class="link">
-        <a href="create_page.html" class="link__button">
+        <a href="{{ route('logger.generate') }}" class="link__button">
             Create Logger now
         </a>
-        <a href="create_page_shortener.html" class="link__button">
+        <a href="{{ route('shortener.generate') }}" class="link__button">
             Create Shortener now
         </a>
     </div>

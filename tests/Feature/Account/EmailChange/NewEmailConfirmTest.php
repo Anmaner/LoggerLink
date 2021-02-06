@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class newEmailConfirmTest extends TestCase
+class NewEmailConfirmTest extends TestCase
 {
     public function testWrongToken()
     {

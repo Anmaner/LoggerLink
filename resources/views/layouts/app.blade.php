@@ -29,7 +29,7 @@
                             @foreach($loggers as $logger)
                                 @if($logger->type === $logger::TYPE_SHORTENER)
                                     <li class="dropdown-item">
-                                        <a href="{{ route('logger.information', $logger->token) }}">#{{ $logger->token }}</a>
+                                        <a href="{{ route('shortener.information', $logger->token) }}">#{{ $logger->token }}</a>
                                     </li>
                                 @endif
                             @endforeach

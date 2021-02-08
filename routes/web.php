@@ -1,10 +1,5 @@
 <?php
 
-use App\Models\User;
-use App\Models\User\EmailChange;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,13 +11,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Account\EmailChangeController;
 use App\Http\Controllers\Account\MailingController;
-use App\Http\Controllers\Logger\LoggerController;
-use App\Http\Controllers\Logger\ShortenerController;
+
+use App\Http\Controllers\Logger\GenerateController;
+use App\Http\Controllers\Logger\InformationController;
+use App\Http\Controllers\Logger\RedirectController;
+use App\Http\Controllers\Logger\StatisticsController;
+use App\Http\Controllers\Logger\ExportController;
+use App\Http\Controllers\Logger\FollowController;
 
 
 Auth::routes();
@@ -55,31 +58,31 @@ Route::group(['middleware' => 'auth', 'prefix' => 'account', 'namespace' => 'Acc
 });
 
 Route::group(['prefix' => 'logger', 'as' => 'logger.', 'namespace' => 'Logger'], function() {
-    Route::get('/', [LoggerController::class, 'generate'])->name('generate');
+    Route::get('/', [GenerateController::class, 'logger'])->name('generate');
 
-    Route::get('{logger}/information', [LoggerController::class, 'information'])->name('information');
-    Route::post('{logger}/information', [LoggerController::class, 'informationStore']);
+    Route::get('{logger}/information', [InformationController::class, 'logger'])->name('information');
+    Route::post('{logger}/information', [InformationController::class, 'loggerStore']);
 
-    Route::get('{logger}/statistics', [LoggerController::class, 'statistics'])->name('statistics');
+    Route::get('{logger}/statistics', [StatisticsController::class, 'logger'])->name('statistics');
 
-    Route::get('{logger}/export', [LoggerController::class, 'export'])->name('export');
-    Route::post('{logger}/export', [LoggerController::class, 'exportDownload']);
+    Route::get('{logger}/export', [ExportController::class, 'formLogger'])->name('export');
+    Route::post('{logger}/export', [ExportController::class, 'exportDownload']);
 });
 
 Route::group(['prefix' => 'shortener', 'as' => 'shortener.', 'namespace' => 'Logger'], function() {
-    Route::get('/', [ShortenerController::class, 'generate'])->name('generate');
+    Route::get('/', [GenerateController::class, 'shortener'])->name('generate');
 
-    Route::get('{token}/information', [ShortenerController::class, 'information'])->name('information');
-    Route::post('{token}/information', [ShortenerController::class, 'informationStore']);
+    Route::get('{logger}/information', [InformationController::class, 'shortener'])->name('information');
+    Route::post('{logger}/information', [InformationController::class, 'shortenerStore']);
 
-    Route::get('{token}/statistics', [ShortenerController::class, 'statistics'])->name('statistics');
+    Route::get('{logger}/statistics', [StatisticsController::class, 'shortener'])->name('statistics');
 
-    Route::get('{token}/redirect', [ShortenerController::class, 'redirect'])->name('redirect');
-    Route::post('{token}/redirect', [ShortenerController::class, 'redirectStore']);
+    Route::get('{logger}/redirect', [RedirectController::class, 'shortener'])->name('redirect');
+    Route::post('{logger}/redirect', [RedirectController::class, 'shortenerStore']);
 
-    Route::get('{token}/export', [ShortenerController::class, 'export'])->name('export');;
-    Route::post('{token}/export', [LoggerController::class, 'exportDownload']);
+    Route::get('{logger}/export', [ExportController::class, 'formShortener'])->name('export');;
+    Route::post('{logger}/export', [ExportController::class, 'exportDownload']);
 });
 
-Route::get('l-{logger}', [LoggerController::class, 'follow'])->name('logger.follow');
-Route::get('s-{logger}', [ShortenerController::class, 'follow'])->name('shortener.follow');
+Route::get('l-{logger}', [FollowController::class, 'logger'])->name('logger.follow');
+Route::get('s-{logger}', [FollowController::class, 'shortener'])->name('shortener.follow');

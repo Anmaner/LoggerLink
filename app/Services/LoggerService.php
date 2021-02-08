@@ -12,9 +12,19 @@ use Illuminate\Support\Str;
 
 class LoggerService
 {
-    public function generate(): string
+    public function generateLogger(): string
     {
         Logger::generateLogger(
+            $user = Auth::user(),
+            $token = $this->getUniqueToken()
+        );
+
+        return $token;
+    }
+
+    public function generateShortener(): string
+    {
+        Logger::generateShortener(
             $user = Auth::user(),
             $token = $this->getUniqueToken()
         );
@@ -25,6 +35,7 @@ class LoggerService
     public function selectFollowStatistics(Int $loggerId, ?String $first_date, ?String $second_date, ?String $unique)
     {
         $logger = Logger::findOrFail($loggerId);
+
         $query = $logger->follows();
 
         $query = $this->followDateQueryFilter($query, $first_date, $second_date);
@@ -47,7 +58,7 @@ class LoggerService
 
     public function loadStatisticsToFile(String $loggerId, String $type, $statistics): string
     {
-        $fileDir = "public/files/logger-export-{$loggerId}.{$type}";
+        $fileDir = "public/files/export-{$loggerId}.{$type}";
 
         Storage::put($fileDir, $statistics);
 

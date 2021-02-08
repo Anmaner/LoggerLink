@@ -46,32 +46,14 @@ class Logger extends Model
         return false;
     }
 
-    public static function generateLogger(User $user, $token): self
+    public static function generateLogger(User $user, string $token): self
     {
-        $logger = self::make([
-            'token' => $token,
-            'status' => self::STATUS_ENABLE,
-            'type' => self::TYPE_LOGGER
-        ]);
-
-        $logger->user()->associate($user);
-        $logger->saveOrFail();
-
-        return $logger;
+        return self::generate(self::TYPE_LOGGER, $user, $token);
     }
 
-    public static function generateShortener(User $user, $token): self
+    public static function generateShortener(User $user, string $token): self
     {
-        $logger = self::make([
-            'token' => $token,
-            'status' => self::STATUS_ENABLE,
-            'type' => self::TYPE_LOGGER
-        ]);
-
-        $logger->user()->associate($user);
-        $logger->saveOrFail();
-
-        return $logger;
+        return self::generate(self::TYPE_SHORTENER, $user, $token);
     }
 
     public static function notExists($token): bool
@@ -103,5 +85,23 @@ class Logger extends Model
     public function follows()
     {
         return $this->hasMany('App\Models\Logger\Follow');
+    }
+
+    protected static function generate(string $type, User $user, String $token): self
+    {
+        if(!in_array($type, self::getTypeList())) {
+            throw new \InvalidArgumentException('Invalid argument given: ' . $type);
+        }
+
+        $logger = self::make([
+            'token' => $token,
+            'status' => self::STATUS_ENABLE,
+            'type' => $type
+        ]);
+
+        $logger->user()->associate($user);
+        $logger->saveOrFail();
+
+        return $logger;
     }
 }

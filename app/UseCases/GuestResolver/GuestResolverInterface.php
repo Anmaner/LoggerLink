@@ -12,6 +12,8 @@ interface GuestResolverInterface
 
     public function getCountry();
 
+    public function getCountryCode();
+
     public function getRegion();
 
     public function getCity();

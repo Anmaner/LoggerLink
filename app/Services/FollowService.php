@@ -37,6 +37,21 @@ class FollowService
         ]);
     }
 
+    public function determineRedirectPath(GuestResolverInterface $resolver, $loggerId)
+    {
+        $logger = Logger::find($loggerId);
+        $redirects = $logger->redirects()->get();
+
+        foreach($redirects as $redirect) {
+            if($redirect->country->code === $resolver->getCountryCode()) {
+                $redirectTo = $redirect->url;
+                break;
+            }
+        }
+
+        return $redirectTo ?? $logger->redirect;
+    }
+
     protected function guardLoggerIsEnable(Logger $logger)
     {
         if(!$logger->isEnable()) {

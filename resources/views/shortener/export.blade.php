@@ -28,8 +28,8 @@
                                     <label for="r2">xml</label>
                                 </div>
                                 <div class="content-settings__unique">
-                                    <input id="r3" type="radio" name="type" value="xls">
-                                    <label for="r3">xls</label>
+                                    <input id="r3" type="radio" name="type" value="json">
+                                    <label for="r3">json</label>
                                 </div>
                             </div>
                         </div>

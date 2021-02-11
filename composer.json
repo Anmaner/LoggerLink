@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "ext-json": "*",
-        "sinergi/browser-detector": "^6.1"
+        "sinergi/browser-detector": "^6.1",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

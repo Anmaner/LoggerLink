@@ -87,6 +87,11 @@ class Logger extends Model
         return $this->hasMany('App\Models\Logger\Follow');
     }
 
+    public function redirects()
+    {
+        return $this->hasMany('App\Models\Logger\Redirect');
+    }
+
     protected static function generate(string $type, User $user, String $token): self
     {
         if(!in_array($type, self::getTypeList())) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Account;
 
 use App\Mail\Account\EmailChanged;
 use App\Mail\Account\NewMail;

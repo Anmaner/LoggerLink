@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Logger;
 
 use App\Models\Logger\Logger;
 use App\UseCases\FileGenerator\FileGeneratorFactory;

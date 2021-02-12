@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Logger;
 
-use App\Services\LoggerService;
+use App\Services\Logger\LoggerService;
 
 class GenerateController
 {

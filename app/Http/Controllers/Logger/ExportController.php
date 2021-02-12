@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Logger;
 
 use App\Http\Controllers\DefaultRender;
 use App\Models\Logger\Logger;
-use App\Services\LoggerService;
+use App\Services\Logger\LoggerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

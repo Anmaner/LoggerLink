@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\DefaultRender;
 use App\Http\Requests\Account\EmailChangeRequest;
 use App\Models\User\EmailChange;
-use App\Services\AccountService;
+use App\Services\Account\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

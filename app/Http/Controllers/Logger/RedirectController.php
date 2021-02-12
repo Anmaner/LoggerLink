@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Logger;
 use App\Http\Controllers\DefaultRender;
 use App\Http\Requests\Logger\RedirectRequest;
 use App\Models\Logger\Logger;
-use App\Services\RedirectService;
+use App\Services\Logger\RedirectService;
 use Illuminate\Http\Request;
 
 class RedirectController

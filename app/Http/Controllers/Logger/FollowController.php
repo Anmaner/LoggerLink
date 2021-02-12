@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Logger;
 
 use App\Models\Logger\Logger;
-use App\Services\FollowService;
+use App\Services\Logger\FollowService;
 use App\UseCases\GuestResolver\GuestResolverInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

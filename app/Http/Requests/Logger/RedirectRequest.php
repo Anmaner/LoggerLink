@@ -14,8 +14,8 @@ class RedirectRequest extends FormRequest
     public function rules()
     {
         return [
-            'country.*' => 'exists:countries,name',
-            'url.*' => 'url'
+            'country.*' => 'required|exists:countries,name',
+            'url.*' => 'required|url'
         ];
     }
 }

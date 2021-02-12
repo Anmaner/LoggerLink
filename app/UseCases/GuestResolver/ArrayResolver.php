@@ -34,7 +34,14 @@ class ArrayResolver implements GuestResolverInterface
 
     public function getAllInformation()
     {
-        return $this->country;
+        return [
+            'ip' => $this->ip,
+            'country' => $this->country,
+            'countryCode' => $this->countryCode,
+            'region' => $this->region ?? '',
+            'city' => $this->city ?? '',
+            'provider' => $this->provider ?? ''
+        ];
     }
 
     public function getIp()
@@ -45,6 +52,11 @@ class ArrayResolver implements GuestResolverInterface
     public function getCountry()
     {
         return $this->country;
+    }
+
+    public function getCountryCode()
+    {
+        return $this->countryCode;
     }
 
     public function getRegion()
